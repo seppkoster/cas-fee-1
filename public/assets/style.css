@@ -1,0 +1,147 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+}
+
+input {
+  border: 0;
+  font-family: "Lato", sans-serif;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+  background-color: lightgrey;
+}
+
+textarea {
+  border: 0;
+  resize: none;
+  box-sizing: border-box;
+  font-family: "Lato", sans-serif;
+}
+
+/* Main Layout */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+
+  height: 100vh;
+}
+
+.header,
+.footer {
+  flex: 0 0 auto;
+}
+
+.content {
+  flex: 1 0 auto;
+}
+
+/* Header */
+.title {
+  padding: 1rem;
+}
+
+.navigation {
+  list-style: none;
+  padding: 1rem 0;
+}
+
+.nav-item {
+  display: inline;
+  margin-left: 1rem;
+}
+
+.nav-item:first-of-type {
+  margin-left: 0;
+}
+
+/* Content */
+
+/* Card Layout */
+.card-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+
+  list-style: none;
+}
+
+/* Card */
+.card {
+  width: 280px;
+  height: 280px;
+  margin: 10px;
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 5px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* Card Header */
+.card-header {
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+
+  font-size: 1rem;
+
+  min-height: 30px;
+  border-bottom: 1px solid grey;
+  margin-bottom: 5px;
+}
+
+.card-title {
+  flex: 1 1 auto;
+}
+
+.finished {
+  padding-left: 5px;
+  flex: 0 0 auto;
+}
+
+/* Card Content */
+.card-content {
+  flex: 1 1 auto;
+
+  overflow-x: hidden;
+
+  overflow-y: auto;
+}
+
+textarea.card-content {
+  width: 100%;
+  height: 100%;
+}
+
+/* Card Footer */
+.card-footer {
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+
+  min-height: 30px;
+  border-top: 1px solid grey;
+  margin-top: 5px;
+}
+
+.importance {
+  flex: 1 1 auto;
+}
+
+.due-date {
+  flex: 1 1 auto;
+}
+
+.action {
+  flex: 0 0 auto;
+}

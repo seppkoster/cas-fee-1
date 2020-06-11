@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>ToDo App - CAS FEE Project 1</title>
+
+    <link rel="stylesheet" href="./assets/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato"
+      rel="stylesheet"
+    />
+
+    <script
+      src="https://kit.fontawesome.com/2e53663194.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+
+    <script id="note-card-template" type="text/x-handlebars-template">
+      {{#each this}}
+        <li class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              {{title}}
+            </h3>
+            <input type="checkbox" name="done" class="finished" />
+          </div>
+
+          <p class="card-content">
+            {{description}}
+          </p>
+
+          <div class="card-footer">
+            <span class="importance">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="far fa-star"></i>
+              <i class="far fa-star"></i>
+            </span>
+            <span class="due-date">
+              19.05.2020
+            </span>
+
+            <button class="action">
+              Edit
+            </button>
+          </div>
+        </li>
+      {{/each}}
+    </script>
+
+    <script id="note-form-template" type="text/x-handlebars-template">
+      <form class="card">
+        <div class="card-header">
+          <input
+            type="text"
+            name="title"
+            placeholder="Title"
+            class="card-title"
+          />
+        </div>
+
+        <textarea
+          name="description"
+          placeholder="Description"
+          class="card-content"
+        ></textarea>
+
+        <div class="card-footer">
+          <span class="importance">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="far fa-star"></i>
+            <i class="far fa-star"></i>
+          </span>
+          <div class="due-date">
+            <input type="date" name="dueDate" class="due-date-input" />
+          </div>
+          <button type="submit" class="action">
+            Save
+          </button>
+        </div>
+      </form>
+    </script>
+
+    <script src="./js/notes.js"></script>
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <h1 class="title">ToDo App</h1>
+        <nav class="navbar">
+          <ul class="navigation">
+            <li class="nav-item">
+              <a href="#" id="add-new-form">
+                Create New
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#">
+                Due Date
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#">
+                Creation Date
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#">
+                Importance
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#">
+                Toggle Finished
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#">
+                Toggle Theme
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+
+      <main class="content">
+        <ul class="card-container"></ul>
+      </main>
+
+      <footer class="footer">
+        <span>&copy; 2020 Sepp Koster</span>
+      </footer>
+    </div>
+
+    <script>
+      const navbar = document.querySelector(".navbar");
+      const cardsContainer = document.querySelector(".card-container");
+
+      const noteCardTemplate = document.querySelector("#note-card-template")
+        .innerHTML;
+
+      const noteFormTemplate = document.querySelector("#note-form-template")
+        .innerHTML;
+
+      function renderNotes() {
+        const noteItems = Handlebars.compile(noteCardTemplate)(notes);
+        cardsContainer.innerHTML = noteItems;
+      }
+
+      function renderForm() {
+        const form = Handlebars.compile(noteFormTemplate)();
+
+        const wrapper = document.createElement("li");
+        wrapper.id = "new-form";
+        wrapper.innerHTML = form;
+
+        cardsContainer.insertAdjacentElement("afterbegin", wrapper);
+      }
+
+      function addNewFormHandler({ target }) {
+        if (
+          !document.querySelector("#new-form") &&
+          target.id === "add-new-form"
+        ) {
+          renderForm();
+        }
+      }
+
+      function createNoteHandler(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        notes.push({
+          title: formData.get("title"),
+          description: formData.get("description"),
+          importance: 2,
+          dueAt: new Date("2020-07-30"),
+          createdAt: new Date(),
+          finished: false,
+        });
+        renderNotes();
+      }
+
+      function init() {
+        renderNotes();
+        cardsContainer.addEventListener("submit", createNoteHandler);
+        navbar.addEventListener("click", addNewFormHandler);
+      }
+      init();
+    </script>
+  </body>
+</html>
