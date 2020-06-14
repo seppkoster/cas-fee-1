@@ -6,7 +6,11 @@ class NotesService {
   // }
 
   async getNotes() {
-    return await httpService.read("/notes/");
+    return await httpService.read("/notes");
+  }
+
+  async createNote(note) {
+    return await httpService.create("/notes", note);
   }
 
   // async getOrder(id) {

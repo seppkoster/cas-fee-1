@@ -22,6 +22,27 @@ export class NotesController {
   async getNotes(req, res) {
     res.json(dummyData);
   }
+
+  async createNote(req, res) {
+    const {
+      title,
+      description,
+      importance,
+      dueAt,
+      createdAt,
+      finished,
+    } = req.body;
+
+    dummyData.push({
+      title,
+      description,
+      importance,
+      dueAt,
+      createdAt,
+      finished,
+    });
+    res.json(dummyData);
+  }
 }
 
 export const notesController = new NotesController();

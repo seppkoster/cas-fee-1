@@ -1,4 +1,4 @@
-class Note {
+export default class Note {
   constructor(title, description, importance, dueAt) {
     this.title = title;
     this.description = description;

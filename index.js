@@ -1,5 +1,6 @@
 import express from "express";
 import path from "path";
+import bodyParser from "body-parser";
 import { notesRoutes } from "./routes/orderRoutes";
 
 const app = express();
@@ -8,6 +9,8 @@ const app = express();
 
 app.use(express.static(path.resolve("public/html")));
 app.use(express.static(path.resolve("public")));
+
+app.use(bodyParser.json());
 
 app.get("/", function (req, res) {
   res.sendFile("/html/index.html", { root: __dirname + "/public/" });

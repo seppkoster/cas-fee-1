@@ -1,6 +1,7 @@
 import { notesService } from "../services/notes-service.js";
+import Note from "../models/note.js";
 
-const { getNotes } = notesService;
+const { getNotes, createNote } = notesService;
 
 const navbar = document.querySelector(".navbar");
 const cardsContainer = document.querySelector(".card-container");
@@ -35,14 +36,15 @@ function addNewFormHandler({ target }) {
 function createNoteHandler(event) {
   event.preventDefault();
   const formData = new FormData(event.target);
-  notes.push({
-    title: formData.get("title"),
-    description: formData.get("description"),
-    importance: 2,
-    dueAt: new Date("2020-07-30"),
-    createdAt: new Date(),
-    finished: false,
-  });
+  const note = new Note(
+    formData.get("title"),
+    formData.get("description"),
+    2,
+    new Date("2020-07-30")
+  );
+
+  createNote(note);
+
   renderNotes();
 }
 
