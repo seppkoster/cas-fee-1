@@ -4,16 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node --experimental-modules --es-module-specifier-resolution=node index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/seppkoster/cas-fee-1.git"
-  },
+  "type": "module",
   "author": "Sepp Koster",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/seppkoster/cas-fee-1/issues"
-  },
-  "homepage": "https://github.com/seppkoster/cas-fee-1#readme"
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
