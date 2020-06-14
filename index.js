@@ -1,5 +1,6 @@
 import express from "express";
 import path from "path";
+import { notesRoutes } from "./routes/orderRoutes";
 
 const app = express();
 
@@ -12,7 +13,7 @@ app.get("/", function (req, res) {
   res.sendFile("/html/index.html", { root: __dirname + "/public/" });
 });
 
-// app.use("/", indexRoutes);
+app.use("/notes", notesRoutes);
 
 const hostname = "127.0.0.1";
 const port = 3000;
