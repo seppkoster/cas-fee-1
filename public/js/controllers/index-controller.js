@@ -82,17 +82,17 @@ function addNewFormHandler({ target }) {
 }
 navbar.addEventListener("click", addNewFormHandler);
 
-function createNoteHandler(event) {
+async function createNoteHandler(event) {
   event.preventDefault();
   const formData = new FormData(event.target);
   const note = new Note(
     formData.get("title"),
     formData.get("description"),
     2,
-    new Date("2020-07-30")
+    new Date(formData.get("dueAt"))
   );
 
-  createNote(note);
+  await createNote(note);
 
   renderNotes();
 }

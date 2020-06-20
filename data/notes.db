@@ -1,3 +1,4 @@
+{"title":"try out if date is working right ","description":"now in this not...\r\nit should show birthday of silvan :)","importance":2,"dueAt":{"$$date":1591315200000},"createdAt":{"$$date":1592658674518},"finished":false,"_id":"IlXcpDOP4KBTtWS4"}
 {"title":"title","description":"asdfasdfasdfasdf","importance":2,"dueAt":"2020-07-30T00:00:00.000Z","createdAt":{"$$date":1592335661242},"finished":false,"_id":"mOIKpZDuovIXewqt"}
 {"title":"how about","description":"this one?","importance":2,"dueAt":{"$$date":1596067200000},"createdAt":{"$$date":1592633640922},"finished":false,"_id":"mhurXnu6pLwYIDau"}
 {"title":"another","description":"one to test","importance":3,"dueAt":{"$$date":1596067200000},"createdAt":{"$$date":1592633627813},"finished":false,"_id":"pbi7GexLLdOliatd"}

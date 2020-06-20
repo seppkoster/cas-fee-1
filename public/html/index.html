@@ -12,12 +12,15 @@
       rel="stylesheet"
     />
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+
     <script
       src="https://kit.fontawesome.com/2e53663194.js"
       crossorigin="anonymous"
     ></script>
 
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <script src="../js/utils/handlebars-helpers.js"></script>
 
     <script id="note-card-template" type="text/x-handlebars-template">
       {{#each this}}
@@ -42,7 +45,7 @@
               <i class="far fa-star"></i>
             </span>
             <span class="due-date">
-              19.05.2020
+              {{formatDate dueAt}}
             </span>
 
             <button class="action">
@@ -79,7 +82,7 @@
             <i class="far fa-star"></i>
           </span>
           <div class="due-date">
-            <input type="date" name="dueDate" class="due-date-input" />
+            <input type="date" name="dueAt" class="due-date-input" />
           </div>
           <button type="submit" class="action">
             Save
