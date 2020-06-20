@@ -1,12 +1,13 @@
 import { httpService } from "./http-service.js";
+import { buildUrl } from "../utils/url-helper.js";
 
 class NotesService {
   // async createPizza(pizzeName) {
   //     return await httpService.ajax("POST", "/orders/", { name: pizzeName });
   // }
 
-  async getNotes() {
-    return await httpService.read("/notes");
+  async getNotes(filter, sort) {
+    return await httpService.read(buildUrl("/notes", { filter, sort }));
   }
 
   async createNote(note) {

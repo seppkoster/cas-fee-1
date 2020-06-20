@@ -3,19 +3,67 @@ import Note from "../models/note.js";
 
 const { getNotes, createNote } = notesService;
 
+// Navigation
 const navbar = document.querySelector(".navbar");
-const cardsContainer = document.querySelector(".card-container");
 
+// Filter
+let filterParams = "";
+function setFilterButtonActive() {
+  for (const link of navbar.querySelectorAll(".filter")) {
+    if (link.dataset.filter === filterParams) {
+      link.classList.add("active");
+    } else {
+      link.classList.remove("active");
+    }
+  }
+}
+function toggleFilterHandler({ target }) {
+  if ([...target.classList].includes("filter")) {
+    const filterValue = target.dataset.filter;
+    filterParams = filterParams === filterValue ? "" : filterValue;
+
+    renderNotes();
+
+    setFilterButtonActive();
+  }
+}
+navbar.addEventListener("click", toggleFilterHandler);
+
+// Sort
+let sortParams = "createdAt";
+function setSortButtonActive() {
+  for (const link of navbar.querySelectorAll(".sort")) {
+    if (link.dataset.sort === sortParams) {
+      link.classList.add("active");
+    } else {
+      link.classList.remove("active");
+    }
+  }
+}
+function sortHandler({ target }) {
+  if ([...target.classList].includes("sort")) {
+    sortParams = target.dataset.sort || sortParams;
+    renderNotes();
+    setSortButtonActive();
+  }
+}
+navbar.addEventListener("click", sortHandler);
+
+// Cards
+const cardsContainer = document.querySelector(".card-container");
 const noteCardTemplate = document.querySelector("#note-card-template")
   .innerHTML;
 
-const noteFormTemplate = document.querySelector("#note-form-template")
-  .innerHTML;
-
 async function renderNotes() {
-  const noteItems = Handlebars.compile(noteCardTemplate)(await getNotes());
+  const noteItems = Handlebars.compile(noteCardTemplate)(
+    await getNotes(filterParams, sortParams)
+  );
   cardsContainer.innerHTML = noteItems;
 }
+
+// Form
+const noteFormTemplate = document.querySelector("#note-form-template")
+  .innerHTML;
 
 function renderForm() {
   const form = Handlebars.compile(noteFormTemplate)();
@@ -32,6 +80,7 @@ function addNewFormHandler({ target }) {
     renderForm();
   }
 }
+navbar.addEventListener("click", addNewFormHandler);
 
 function createNoteHandler(event) {
   event.preventDefault();
@@ -47,10 +96,11 @@ function createNoteHandler(event) {
 
   renderNotes();
 }
+cardsContainer.addEventListener("submit", createNoteHandler);
 
 function init() {
+  setFilterButtonActive();
+  setSortButtonActive();
   renderNotes();
-  cardsContainer.addEventListener("submit", createNoteHandler);
-  navbar.addEventListener("click", addNewFormHandler);
 }
 init();

@@ -18,7 +18,7 @@ export class NoteStore {
   }
 
   async add({ title, description, importance, dueAt }) {
-    const note = new Note(title, description, importance, dueAt);
+    const note = new Note(title, description, importance, new Date(dueAt));
     return await this.db.insert(note);
   }
 
@@ -27,14 +27,13 @@ export class NoteStore {
   //     return await this.get(id);
   // }
 
-  // async get(id, currentUser) {
-  //     return await this.db.findOne({_id: id, orderedBy : currentUser});
-  // }
+  async all(filter = [], sort = []) {
+    const filters = Array.isArray(filter) ? filter : [filter];
+    const sorts = Array.isArray(sort) ? sort : [sort];
 
-  async all() {
     return await this.db
-      .cfind({ finished: false })
-      .sort({ createdAt: -1 })
+      .cfind(filters.reduce((acc, f) => ({ ...acc, [f]: false }), {}))
+      .sort(sorts.reduce((acc, o) => ({ ...acc, [o]: -1 }), {}))
       .exec();
   }
 }

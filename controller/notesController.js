@@ -1,8 +1,8 @@
 import { noteStore } from "../services/noteStore";
 
 export class NotesController {
-  async getNotes(req, res) {
-    res.json(await noteStore.all());
+  async getNotes({ query: { filter, sort } }, res) {
+    res.json(await noteStore.all(filter, sort));
   }
 
   async createNote(req, res) {
