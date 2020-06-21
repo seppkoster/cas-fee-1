@@ -4,7 +4,5 @@ export default class Note {
     this.description = description;
     this.importance = importance;
     this.dueAt = dueAt;
-    this.createdAt = new Date();
-    this.finished = false;
   }
 }

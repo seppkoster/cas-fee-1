@@ -49,6 +49,11 @@ function sortHandler({ target }) {
 }
 navbar.addEventListener("click", sortHandler);
 
+// Partial Template for Star rating
+const starRatingTemplate = document.querySelector("#star-rating-template")
+  .innerHTML;
+Handlebars.registerPartial("star-rating", starRatingTemplate);
+
 // Cards
 const cardsContainer = document.querySelector(".card-container");
 const noteCardTemplate = document.querySelector("#note-card-template")
@@ -65,6 +70,19 @@ async function renderNotes() {
 const noteFormTemplate = document.querySelector("#note-form-template")
   .innerHTML;
 
+function renderStarRating(starsContainer, value = 1) {
+  const stars = Handlebars.compile(starRatingTemplate)({ value });
+  starsContainer.innerHTML = stars;
+}
+
+function onStarClickedHandler({ target }, inputField, starsContainer) {
+  const ratingValue = target.dataset.ratingValue;
+  if (!!ratingValue) {
+    inputField.value = ratingValue;
+    renderStarRating(starsContainer, ratingValue);
+  }
+}
+
 function renderForm() {
   const form = Handlebars.compile(noteFormTemplate)();
 
@@ -73,6 +91,16 @@ function renderForm() {
   wrapper.innerHTML = form;
 
   cardsContainer.insertAdjacentElement("afterbegin", wrapper);
+
+  const importance = wrapper.querySelector(".importance");
+  const importanceInputField = importance.querySelector("input");
+  const starsContainer = importance.querySelector(".stars");
+
+  importance.addEventListener("click", (event) =>
+    onStarClickedHandler(event, importanceInputField, starsContainer)
+  );
+
+  renderStarRating(starsContainer);
 }
 
 function addNewFormHandler({ target }) {
@@ -88,7 +116,7 @@ async function createNoteHandler(event) {
   const note = new Note(
     formData.get("title"),
     formData.get("description"),
-    2,
+    formData.get("importance"),
     new Date(formData.get("dueAt"))
   );
 

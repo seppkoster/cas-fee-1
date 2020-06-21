@@ -22,6 +22,16 @@
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script src="../js/utils/handlebars-helpers.js"></script>
 
+    <script id="star-rating-template" type="text/x-handlebars-template">
+      {{#times 5}}
+        {{#when value "gt" @index}}
+          <i class="fas fa-star" data-rating-value="{{math @index "+" 1}}"></i>
+        {{else}}
+          <i class="far fa-star" data-rating-value="{{math @index "+" 1}}"></i>
+        {{/when}}
+      {{/times}}
+    </script>
+
     <script id="note-card-template" type="text/x-handlebars-template">
       {{#each this}}
         <li class="card">
@@ -38,11 +48,7 @@
 
           <div class="card-footer">
             <span class="importance">
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="fas fa-star"></i>
-              <i class="far fa-star"></i>
-              <i class="far fa-star"></i>
+              {{> star-rating value=importance}}
             </span>
             <span class="due-date">
               {{formatDate dueAt}}
@@ -74,13 +80,11 @@
         ></textarea>
 
         <div class="card-footer">
-          <span class="importance">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="far fa-star"></i>
-            <i class="far fa-star"></i>
-          </span>
+          <div class="importance">
+            <input type="text" name="importance" value="1" hidden />
+            <span class="stars">
+            </span>
+          </div>
           <div class="due-date">
             <input type="date" name="dueAt" class="due-date-input" />
           </div>
