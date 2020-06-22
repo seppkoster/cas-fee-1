@@ -39,7 +39,10 @@
             <h3 class="card-title">
               {{title}}
             </h3>
-            <input type="checkbox" name="done" class="finished" />
+
+            <a href="#" class="action" data-action="editNote">
+              <i class="far fa-edit"></i>
+            </a>
           </div>
 
           <p class="card-content">
@@ -54,8 +57,12 @@
               {{formatDate dueAt}}
             </span>
 
-            <a href="#" class="action" data-action="editNote">
-              <i class="far fa-edit"></i>
+            <a href="#" class="finished" data-action="toggleFinished">
+              {{#if finished}}
+                <i class="far fa-check-square"></i>
+              {{else}}
+                <i class="far fa-square"></i>
+              {{/if}}
             </a>
           </div>
         </li>
@@ -73,6 +80,10 @@
             class="card-title"
             value="{{title}}"
           />
+
+          <button type="submit" class="action">
+            <i class="far fa-save"></i>
+          </button>
         </div>
 
         <textarea
@@ -102,9 +113,6 @@
               value="{{formatDateInput dueAt}}"
             />
           </div>
-          <button type="submit" class="action">
-            <i class="fas fa-save"></i>
-          </button>
         </div>
       </form>
     </script>

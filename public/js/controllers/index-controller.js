@@ -162,7 +162,21 @@ function addEditFormHandler(event) {
   }
 }
 
+async function toggleFinishedHandler(event) {
+  if (event.target.dataset.isFinished !== "toggleFinished") {
+    event.preventDefault();
+    const noteId = event.target.closest("li.card").dataset.noteId;
+    const note = notes.find(({ _id }) => _id === noteId);
+
+    const { finished } = note;
+
+    await updateNote({ ...note, finished: !finished });
+    renderNotes();
+  }
+}
+
 cardsContainer.addEventListener("click", addEditFormHandler);
+cardsContainer.addEventListener("click", toggleFinishedHandler);
 
 function init() {
   setFilterButtonActive();
