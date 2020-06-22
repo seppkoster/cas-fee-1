@@ -1,28 +1,61 @@
+:root {
+  --color-green: #225560;
+  --color-green-dark-1: #1b434b;
+  --color-green-dark-2: #10282d;
+  --color-green-light-1: #307888;
+  --color-green-light-2: #3a92a6;
+  --color-green-light-3: #4aaabf;
+  --color-green-light-4: #68b8ca;
+  --color-green-light-5: #86c6d5;
+  --color-green-light-6: #a4d4df;
+  --color-green-light-7: #c3e3ea;
+  --color-green-light-8: #e1f1f4;
+  --color-green-background: #f0f8fa;
+  --color-white: #ffffff;
+}
+
 * {
   margin: 0;
   padding: 0;
 }
 
 body {
+  --color-text-primary: var(--color-green);
+  --color-text-hover: var(--color-green-light-2);
+  --color-bg-primary: var(--color-white);
+  --color-nav-hover: var(--color-green-light-2);
+  --color-border: var(--color-green-dark-2);
+  --color-bg-input: var(--color-green-light-8);
+  --color-bg-input-focus: var(--color-green-light-7);
+  --color-placholder-input: var(--color-green-light-3);
+
   font-family: "Lato", sans-serif;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
 }
 
-input {
+input,
+textarea {
   border: 0;
+  background-color: var(--color-bg-input);
   font-family: "Lato", sans-serif;
+  color: var(--color-text-primary);
+}
+
+textarea {
+  resize: none;
+  box-sizing: border-box;
 }
 
 textarea:focus,
 input:focus {
   outline: none;
-  background-color: lightgrey;
+  background-color: var(--color-bg-input-focus);
 }
 
-textarea {
-  border: 0;
-  resize: none;
-  box-sizing: border-box;
-  font-family: "Lato", sans-serif;
+textarea::placeholder,
+input::placeholder {
+  color: var(--color-placholder-input);
 }
 
 button {
@@ -31,7 +64,21 @@ button {
   padding: 0;
   font-family: "Lato", sans-serif;
   font-size: 1rem;
+  color: var(--color-text-primary);
   cursor: pointer;
+}
+
+button:hover {
+  color: var(--color-text-hover);
+}
+
+a {
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-text-hover);
 }
 
 button > *,
@@ -47,6 +94,10 @@ a > * {
   height: 100vh;
 }
 
+.header {
+  margin-bottom: 1rem;
+}
+
 .header,
 .footer {
   flex: 0 0 auto;
@@ -59,16 +110,43 @@ a > * {
 /* Header */
 .title {
   padding: 1rem;
+  text-align: center;
 }
 
 .navigation {
-  list-style: none;
-  padding: 1rem 0;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  background-color: var(--color-green);
 }
 
-.nav-item {
-  display: inline;
-  margin-left: 1rem;
+.nav-link {
+  color: var(--color-white);
+
+  padding: 1rem 1.5rem;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+@media screen and (min-width: 600px) {
+  .navigation {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    text-align: center;
+  }
+
+  .nav-item {
+    flex-grow: 1;
+    flex-basis: auto;
+    flex-shrink: 0;
+  }
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--color-white);
+  background-color: var(--color-nav-hover);
 }
 
 .nav-item:first-of-type {
@@ -90,10 +168,10 @@ a > * {
 .card {
   width: 280px;
   height: 280px;
-  margin: 10px;
-  border: 2px solid black;
+  margin: 12px;
+  border: 2px solid var(--color-border);
   border-radius: 5px;
-  padding: 5px;
+  padding: 8px;
 
   display: flex;
   flex-direction: column;
@@ -109,12 +187,13 @@ a > * {
   font-size: 1rem;
 
   min-height: 30px;
-  border-bottom: 1px solid grey;
+  border-bottom: 1px solid var(--color-border);
   margin-bottom: 5px;
 }
 
 .card-title {
   flex: 1 1 auto;
+  padding: 3px;
 }
 
 .action {
@@ -125,9 +204,9 @@ a > * {
 /* Card Content */
 .card-content {
   flex: 1 1 auto;
+  padding: 3px;
 
   overflow-x: hidden;
-
   overflow-y: auto;
 }
 
@@ -141,21 +220,10 @@ textarea.card-content {
   flex: 0 0 auto;
 
   display: flex;
+  justify-content: space-between;
   align-items: center;
 
   min-height: 30px;
-  border-top: 1px solid grey;
+  border-top: 1px solid var(--color-border);
   margin-top: 5px;
-}
-
-.importance {
-  flex: 1 1 auto;
-}
-
-.due-date {
-  flex: 1 1 auto;
-}
-
-.finished {
-  flex: 0 0 auto;
 }

@@ -163,7 +163,7 @@ function addEditFormHandler(event) {
 }
 
 async function toggleFinishedHandler(event) {
-  if (event.target.dataset.isFinished !== "toggleFinished") {
+  if (event.target.dataset.action === "toggleFinished") {
     event.preventDefault();
     const noteId = event.target.closest("li.card").dataset.noteId;
     const note = notes.find(({ _id }) => _id === noteId);
