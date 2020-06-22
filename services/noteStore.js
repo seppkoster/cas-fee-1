@@ -17,16 +17,6 @@ export class NoteStore {
       db || new Datastore({ filename: "./data/notes.db", autoload: true });
   }
 
-  async add({ title, description, importance, dueAt }) {
-    const note = new Note(title, description, importance, new Date(dueAt));
-    return await this.db.insert(note);
-  }
-
-  // async delete(id, currentUser) {
-  //     await this.db.update({_id: id, orderedBy: currentUser}, {$set: {"state": "DELETED"}});
-  //     return await this.get(id);
-  // }
-
   async all(filter = [], sort = []) {
     const filters = Array.isArray(filter) ? filter : [filter];
     const sorts = Array.isArray(sort) ? sort : [sort];
@@ -35,6 +25,26 @@ export class NoteStore {
       .cfind(filters.reduce((acc, f) => ({ ...acc, [f]: false }), {}))
       .sort(sorts.reduce((acc, o) => ({ ...acc, [o]: -1 }), {}))
       .exec();
+  }
+
+  async add({ title, description, importance, dueAt }) {
+    const note = new Note(title, description, importance, new Date(dueAt));
+    return await this.db.insert(note);
+  }
+
+  async update(id, { title, description, importance, dueAt, finished }) {
+    return await this.db.update(
+      { _id: id },
+      {
+        $set: {
+          ...(title !== undefined && { title }),
+          ...(description !== undefined && { description }),
+          ...(importance !== undefined && { importance }),
+          ...(dueAt !== undefined && { dueAt: new Date(dueAt) }),
+          ...(finished !== undefined && { finished }),
+        },
+      }
+    );
   }
 }
 

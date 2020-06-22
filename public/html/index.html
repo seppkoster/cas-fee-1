@@ -34,7 +34,7 @@
 
     <script id="note-card-template" type="text/x-handlebars-template">
       {{#each this}}
-        <li class="card">
+        <li class="card" data-note-id="{{_id}}">
           <div class="card-header">
             <h3 class="card-title">
               {{title}}
@@ -54,9 +54,9 @@
               {{formatDate dueAt}}
             </span>
 
-            <button class="action">
-              Edit
-            </button>
+            <a href="#" class="action" data-action="editNote">
+              <i class="far fa-edit"></i>
+            </a>
           </div>
         </li>
       {{/each}}
@@ -64,12 +64,14 @@
 
     <script id="note-form-template" type="text/x-handlebars-template">
       <form class="card">
+        <input type="text" name="id" value="{{_id}}" hidden />
         <div class="card-header">
           <input
             type="text"
             name="title"
             placeholder="Title"
             class="card-title"
+            value="{{title}}"
           />
         </div>
 
@@ -77,19 +79,31 @@
           name="description"
           placeholder="Description"
           class="card-content"
-        ></textarea>
+        >
+          {{description}}
+        </textarea>
 
         <div class="card-footer">
           <div class="importance">
-            <input type="text" name="importance" value="1" hidden />
+            <input
+              type="text"
+              name="importance"
+              value="{{importance}}"
+              hidden
+            />
             <span class="stars">
             </span>
           </div>
           <div class="due-date">
-            <input type="date" name="dueAt" class="due-date-input" />
+            <input
+              type="date"
+              name="dueAt"
+              class="due-date-input"
+              value="{{formatDateInput dueAt}}"
+            />
           </div>
           <button type="submit" class="action">
-            Save
+            <i class="fas fa-save"></i>
           </button>
         </div>
       </form>

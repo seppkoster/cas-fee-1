@@ -8,6 +8,10 @@ export class NotesController {
   async createNote(req, res) {
     res.json(await noteStore.add(req.body));
   }
+
+  async updateNote(req, res) {
+    res.json(await noteStore.update(req.params.id, req.body));
+  }
 }
 
 export const notesController = new NotesController();

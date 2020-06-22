@@ -25,6 +25,11 @@ textarea {
   font-family: "Lato", sans-serif;
 }
 
+button > *,
+a > * {
+  pointer-events: none;
+}
+
 /* Main Layout */
 .wrapper {
   display: flex;

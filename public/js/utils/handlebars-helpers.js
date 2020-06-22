@@ -2,6 +2,10 @@ Handlebars.registerHelper("formatDate", (date) => {
   return moment(new Date(date)).format("DD.MM.YYYY");
 });
 
+Handlebars.registerHelper("formatDateInput", function (date) {
+  return moment(date).format("YYYY-MM-DD");
+});
+
 Handlebars.registerHelper("times", function (n, block) {
   var accum = "";
   for (var i = 0; i < n; ++i) {

@@ -14,6 +14,16 @@ class HttpService {
     });
     return response.json();
   }
+
+  async update(url, resource) {
+    const headers = new Headers({ "content-type": "application/json" });
+    const response = await fetch(url, {
+      headers,
+      method: "PATCH",
+      body: JSON.stringify(resource),
+    });
+    return response.json();
+  }
 }
 
 export const httpService = new HttpService();
