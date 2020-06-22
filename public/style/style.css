@@ -1,16 +1,18 @@
 :root {
   --color-green: #225560;
-  --color-green-dark-1: #1b434b;
-  --color-green-dark-2: #10282d;
-  --color-green-light-1: #307888;
-  --color-green-light-2: #3a92a6;
-  --color-green-light-3: #4aaabf;
-  --color-green-light-4: #68b8ca;
-  --color-green-light-5: #86c6d5;
-  --color-green-light-6: #a4d4df;
-  --color-green-light-7: #c3e3ea;
-  --color-green-light-8: #e1f1f4;
-  --color-green-background: #f0f8fa;
+  --color-green-dark-1: #10282d;
+  --color-green-light-1: #3a92a6;
+  --color-green-light-2: #4aaabf;
+  --color-green-light-3: #c3e3ea;
+  --color-green-light-4: #e1f1f4;
+
+  --color-orange: #ee6c1b;
+  --color-orange-dark-1: #ab490d;
+  --color-orange-light-1: #f49d67;
+  --color-orange-light-2: #f6b68d;
+  --color-orange-light-3: #fce7d9;
+  --color-orange-light-4: #fef3ec;
+
   --color-white: #ffffff;
 }
 
@@ -21,17 +23,32 @@
 
 body {
   --color-text-primary: var(--color-green);
-  --color-text-hover: var(--color-green-light-2);
+  --color-text-inverse: var(--color-white);
+  --color-text-hover: var(--color-green-light-1);
   --color-bg-primary: var(--color-white);
-  --color-nav-hover: var(--color-green-light-2);
-  --color-border: var(--color-green-dark-2);
-  --color-bg-input: var(--color-green-light-8);
-  --color-bg-input-focus: var(--color-green-light-7);
-  --color-placholder-input: var(--color-green-light-3);
+  --color-bg-inverse: var(--color-green);
+  --color-nav-hover: var(--color-green-light-1);
+  --color-border: var(--color-green-dark-1);
+  --color-bg-input: var(--color-green-light-4);
+  --color-bg-input-focus: var(--color-green-light-3);
+  --color-placholder-input: var(--color-green-light-2);
 
   font-family: "Lato", sans-serif;
   color: var(--color-text-primary);
   background-color: var(--color-bg-primary);
+}
+
+body.orangeTheme {
+  --color-text-primary: var(--color-orange);
+  --color-text-inverse: var(--color-white);
+  --color-text-hover: var(--color-orange-light-1);
+  --color-bg-primary: var(--color-white);
+  --color-bg-inverse: var(--color-orange);
+  --color-nav-hover: var(--color-orange-light-1);
+  --color-border: var(--color-orange-dark-1);
+  --color-bg-input: var(--color-orange-light-4);
+  --color-bg-input-focus: var(--color-orange-light-3);
+  --color-placholder-input: var(--color-orange-light-2);
 }
 
 input,
@@ -117,15 +134,15 @@ a > * {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  background-color: var(--color-green);
+  background-color: var(--color-bg-inverse);
 }
 
 .nav-link {
-  color: var(--color-white);
+  color: var(--color-text-inverse);
 
   padding: 1rem 1.5rem;
   display: block;
-  transition: all 0.3s ease;
+  transition: all 0.7s ease;
 }
 
 @media screen and (min-width: 600px) {
