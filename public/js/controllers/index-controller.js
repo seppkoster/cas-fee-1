@@ -1,5 +1,6 @@
 import { notesService } from "../services/notes-service.js";
 import Note from "../models/note.js";
+import { ThemeToggler } from "./theme-toggler.js";
 
 const { getNotes, createNote, updateNote } = notesService;
 
@@ -7,6 +8,22 @@ let notes = [];
 
 // Navigation
 const navbar = document.querySelector(".navbar");
+
+// ThemeToggler
+const themeToggleLink = navbar.querySelector("#theme-toggler");
+const viewBody = document.querySelector("body");
+
+function themeChangedHandler(newThemeName) {
+  viewBody.className = newThemeName;
+}
+
+const themeToggler = new ThemeToggler(
+  "greenTheme",
+  "orangeTheme",
+  themeChangedHandler
+);
+
+themeToggleLink.addEventListener("click", themeToggler.toggleTheme);
 
 // Filter
 let filterParams = "";
