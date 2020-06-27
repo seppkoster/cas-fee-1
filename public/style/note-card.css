@@ -12,7 +12,7 @@
   height: 280px;
   margin: 12px;
   border: 2px solid var(--color-border);
-  border-radius: 5px;
+  border-radius: 8px;
   padding: 8px;
 
   display: flex;
@@ -68,4 +68,15 @@ textarea.card-content {
   min-height: 30px;
   border-top: 1px solid var(--color-border);
   margin-top: 5px;
+}
+
+/* Message Card */
+.card.message {
+  align-items: center;
+  justify-content: center;
+}
+
+.no-notes {
+  text-align:center;
+  font-size: 1.2rem;
 }
