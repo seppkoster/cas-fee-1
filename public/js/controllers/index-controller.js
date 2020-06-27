@@ -1,6 +1,6 @@
 import { notesService } from "../services/notes-service.js";
-import Note from "../models/note.js";
-import { ThemeToggler } from "./theme-toggler.js";
+import { ThemeToggler } from "../utils/theme-toggler.js";
+import { NoteFormFactory } from "../factories/note-form-factory.js";
 
 const { getNotes, createNote, updateNote } = notesService;
 
@@ -36,13 +36,11 @@ function setFilterButtonActive() {
     }
   }
 }
-function toggleFilterHandler({ target }) {
+async function toggleFilterHandler({ target }) {
   if ([...target.classList].includes("filter")) {
     const filterValue = target.dataset.filter;
     filterParams = filterParams === filterValue ? "" : filterValue;
-
-    renderNotes();
-
+    await renderNotes();
     setFilterButtonActive();
   }
 }
@@ -59,10 +57,10 @@ function setSortButtonActive() {
     }
   }
 }
-function sortHandler({ target }) {
+async function sortHandler({ target }) {
   if ([...target.classList].includes("sort")) {
     sortParams = target.dataset.sort || sortParams;
-    renderNotes();
+    await renderNotes();
     setSortButtonActive();
   }
 }
@@ -79,86 +77,38 @@ async function renderNotes() {
   cardsContainer.innerHTML = noteItems;
 }
 
-// Partial Template for Star rating
+// Note Form Factory
+const noteFormTemplate = document.querySelector("#note-form-template")
+  .innerHTML;
 const starRatingTemplate = document.querySelector("#star-rating-template")
   .innerHTML;
 Handlebars.registerPartial("star-rating", starRatingTemplate);
 
-function renderStarRating(starsContainer, value = 1) {
-  const stars = Handlebars.compile(starRatingTemplate)({ value });
-  starsContainer.innerHTML = stars;
+const noteFormFactory = new NoteFormFactory(
+  noteFormTemplate,
+  starRatingTemplate
+);
+
+// New Note Form
+async function createNoteHandler(note) {
+  await createNote(note);
+  await renderNotes();
 }
 
-function onStarClickedHandler({ target }, inputField, starsContainer) {
-  const ratingValue = target.dataset.ratingValue;
-  if (!!ratingValue) {
-    inputField.value = ratingValue;
-    renderStarRating(starsContainer, ratingValue);
-  }
-}
-
-// Form
-const noteFormTemplate = document.querySelector("#note-form-template")
-  .innerHTML;
-
-function renderForm(wrapper, note) {
-  const form = Handlebars.compile(noteFormTemplate)(note);
-  wrapper.innerHTML = form;
-
-  const importance = wrapper.querySelector(".importance");
-  const importanceInputField = importance.querySelector("input");
-  const starsContainer = importance.querySelector(".stars");
-
-  cardsContainer.insertAdjacentElement("afterbegin", wrapper);
-
-  importance.addEventListener("click", (event) =>
-    onStarClickedHandler(event, importanceInputField, starsContainer)
-  );
-
-  renderStarRating(starsContainer);
-}
-
-// Create Form
 function addNewFormHandler({ target }) {
   if (!document.querySelector("#new-form") && target.id === "add-new-form") {
     const wrapper = document.createElement("li");
     wrapper.id = "new-form";
-    renderForm(wrapper);
-
-    wrapper.addEventListener("submit", createNoteHandler);
+    noteFormFactory.generateForm(wrapper, {}, createNoteHandler);
+    cardsContainer.insertAdjacentElement("afterbegin", wrapper);
   }
 }
 navbar.addEventListener("click", addNewFormHandler);
 
-async function createNoteHandler(event) {
-  event.preventDefault();
-  const formData = new FormData(event.target);
-  const note = new Note(
-    formData.get("title"),
-    formData.get("description"),
-    formData.get("importance"),
-    new Date(formData.get("dueAt"))
-  );
-
-  await createNote(note);
-
-  renderNotes();
-}
-
-async function updateNoteHandler(event) {
-  event.preventDefault();
-  const formData = new FormData(event.target);
-  const note = new Note(
-    formData.get("title"),
-    formData.get("description"),
-    formData.get("importance"),
-    new Date(formData.get("dueAt")),
-    formData.get("id")
-  );
-
+// Edit Note Form
+async function updateNoteHandler(note) {
   await updateNote(note);
-
-  renderNotes();
+  await renderNotes();
 }
 
 function addEditFormHandler(event) {
@@ -171,13 +121,13 @@ function addEditFormHandler(event) {
 
     const wrapper = document.createElement("li");
     wrapper.id = "edit-form";
-    wrapper.addEventListener("submit", updateNoteHandler);
 
-    renderForm(wrapper, note);
+    noteFormFactory.generateForm(wrapper, note, updateNoteHandler);
 
     noteCard.replaceWith(wrapper);
   }
 }
+cardsContainer.addEventListener("click", addEditFormHandler);
 
 async function toggleFinishedHandler(event) {
   if (event.target.dataset.action === "toggleFinished") {
@@ -192,7 +142,6 @@ async function toggleFinishedHandler(event) {
   }
 }
 
-cardsContainer.addEventListener("click", addEditFormHandler);
 cardsContainer.addEventListener("click", toggleFinishedHandler);
 
 function init() {
