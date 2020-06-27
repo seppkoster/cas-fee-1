@@ -6,6 +6,15 @@ const { getNotes, createNote, updateNote } = notesService;
 
 let notes = [];
 
+// Handlebar Templates
+const noteCardTemplate = document.querySelector("#note-card-template")
+  .innerHTML;
+const noteFormTemplate = document.querySelector("#note-form-template")
+  .innerHTML;
+const starRatingTemplate = document.querySelector("#star-rating-template")
+  .innerHTML;
+Handlebars.registerPartial("star-rating", starRatingTemplate);
+
 // Navigation
 const navbar = document.querySelector(".navbar");
 
@@ -68,8 +77,6 @@ navbar.addEventListener("click", sortHandler);
 
 // Cards
 const cardsContainer = document.querySelector(".card-container");
-const noteCardTemplate = document.querySelector("#note-card-template")
-  .innerHTML;
 
 async function renderNotes() {
   notes = await getNotes(filterParams, sortParams);
@@ -77,13 +84,22 @@ async function renderNotes() {
   cardsContainer.innerHTML = noteItems;
 }
 
-// Note Form Factory
-const noteFormTemplate = document.querySelector("#note-form-template")
-  .innerHTML;
-const starRatingTemplate = document.querySelector("#star-rating-template")
-  .innerHTML;
-Handlebars.registerPartial("star-rating", starRatingTemplate);
+async function toggleFinishedHandler(event) {
+  if (event.target.dataset.action === "toggleFinished") {
+    event.preventDefault();
+    const noteId = event.target.closest("li.card").dataset.noteId;
+    const note = notes.find(({ _id }) => _id === noteId);
 
+    const { _id, finished } = note;
+
+    await updateNote({ _id, finished: !finished });
+    renderNotes();
+  }
+}
+
+cardsContainer.addEventListener("click", toggleFinishedHandler);
+
+// Note Form Factory
 const noteFormFactory = new NoteFormFactory(
   noteFormTemplate,
   starRatingTemplate
@@ -129,20 +145,7 @@ function addEditFormHandler(event) {
 }
 cardsContainer.addEventListener("click", addEditFormHandler);
 
-async function toggleFinishedHandler(event) {
-  if (event.target.dataset.action === "toggleFinished") {
-    event.preventDefault();
-    const noteId = event.target.closest("li.card").dataset.noteId;
-    const note = notes.find(({ _id }) => _id === noteId);
 
-    const { finished } = note;
-
-    await updateNote({ ...note, finished: !finished });
-    renderNotes();
-  }
-}
-
-cardsContainer.addEventListener("click", toggleFinishedHandler);
 
 function init() {
   setFilterButtonActive();

@@ -19,6 +19,7 @@ function onStarClickedHandler(
 }
 
 async function onSubmitHandler(event, onSubmitCallback) {
+  event.preventDefault();
   const formData = new FormData(event.target);
   const note = new Note(
     formData.get("title"),
