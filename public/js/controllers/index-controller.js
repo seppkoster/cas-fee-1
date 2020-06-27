@@ -145,8 +145,6 @@ function addEditFormHandler(event) {
 }
 cardsContainer.addEventListener("click", addEditFormHandler);
 
-
-
 function init() {
   setFilterButtonActive();
   setSortButtonActive();
