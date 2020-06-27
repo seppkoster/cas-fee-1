@@ -6,9 +6,14 @@ Handlebars.registerHelper("formatDateInput", function (date) {
   return moment(date).format("YYYY-MM-DD");
 });
 
+Handlebars.registerHelper('transformLineBreaks', function(plaintext) {
+  const output = plaintext.split(/\r\n|\r|\n/g).reduce((out,line)=>out+=`${line}<br>`,'');
+  return new Handlebars.SafeString(output);
+});
+
 Handlebars.registerHelper("times", function (n, block) {
-  var accum = "";
-  for (var i = 0; i < n; ++i) {
+  let accum = "";
+  for (let i = 0; i < n; ++i) {
     block.data.index = i;
     block.data.first = i === 0;
     block.data.last = i === n - 1;
